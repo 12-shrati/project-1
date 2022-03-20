@@ -35,8 +35,9 @@ let authorization = function (req, res, next) {
         if (decodedToken.authorId != authorId) {
             res.status(403).send({ status: false, msg: "unAthorized access" })
         }
-       
+        req.authorId=authorId
         next()
+        
     }
     catch (error) {
         res.status(500).send({ status: false, msg: error.message })
