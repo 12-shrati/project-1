@@ -136,7 +136,7 @@ const updateBlog = async function (req, res) {
     const params = req.params
     let blogId = params.blogId
     const authorIdFromToken = req.authorId
-    
+
     if (!isValidObjectId(blogId)) {
       return res.status(400).send({ status: false, message: `${blogId}  is not valid blog id` })
     }
@@ -174,11 +174,13 @@ const updateBlog = async function (req, res) {
       if (!Object.prototype.hasOwnProperty.call(updatedBlog, '$set')) updatedBlog['$set'] = {}
       updatedBlog['$set']['catogory'] = catogory
     }
+
     if (isPublished !== undefined) {
       if (!Object.prototype.hasOwnProperty.call(updatedBlog, '$set')) updatedBlog['$set'] = {}
       updatedBlog['$set']['isPublished'] = isPublished
-      updatedBlog['$set']['PublishedAt'] = isPublished ? new Date() : null
+      updatedBlog['$set']['publishedAt'] = isPublished ? new Date() : null
     }
+
     if (tags) {
       if (!Object.prototype.hasOwnProperty.call(updatedBlog, '$addToSet')) updatedBlog['$addToSet'] = {}
       if (Array.isArray(tags)) {
@@ -303,8 +305,8 @@ const deleteByQuery = async function (req, res) {
     const blogsDelete = blogs.map(blog => {
       if (blog.authorId.toString() === authorIdFromToken) return blog._id
     })
-    if(blogsDelete.length===0){
-      return res.status(404).send({status:false,message:"no blog found"})
+    if (blogsDelete.length === 0) {
+      return res.status(404).send({ status: false, message: "no blog found" })
     }
 
 
